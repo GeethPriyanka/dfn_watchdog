@@ -1,0 +1,9 @@
+security.basic.enable: false
+security:
+  user:
+    password: password
+logging:
+  level:
+    org.springframework.security: INFO
+server:
+  port: 8060

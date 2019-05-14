@@ -1,0 +1,157 @@
+/**
+ * Created by isurul on 14/3/2017.
+ */
+angular
+    .module('watchdogView', [])
+    .controller('view', function ($http, $scope, $timeout) {
+        var self = this;
+        var treeData;
+        var timeoutPromise;
+
+        drawLegend();
+
+        tick();
+
+        function tick() {
+            $http.get('/watchdogclient/view').then(function (response) {
+                treeData = response.data;
+                drawTree();
+                timeoutPromise = $timeout(tick, 1000);
+            });
+        }
+
+        $scope.$on('$locationChangeStart', function() {
+            $timeout.cancel(timeoutPromise)
+        });
+
+        function drawTree() {
+            var margin = {top: 20, right: 120, bottom: 20, left: 120},
+                width = 960 - margin.right - margin.left,
+                height = 500 - margin.top - margin.bottom;
+
+            var i = 0;
+
+            var tree = d3.layout.tree()
+                .size([height, width]);
+
+            var diagonal = d3.svg.diagonal()
+                .projection(function(d) { return [d.y, d.x]; });
+
+            d3.select("#main-view").select("svg").remove();
+
+            var svg = d3.select("#main-view").append("svg")
+                .attr("width", width + margin.right + margin.left)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            root = treeData[0];
+
+            update(root);
+
+            function update(source) {
+
+                // Compute the new tree layout.
+                var nodes = tree.nodes(root).reverse(),
+                    links = tree.links(nodes);
+
+                // Normalize for fixed-depth.
+                nodes.forEach(function(d) { d.y = d.depth * 180; });
+
+                // Declare the nodes…
+                var node = svg.selectAll("g.node")
+                    .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+                // Enter the nodes.
+                var nodeEnter = node.enter().append("g")
+                    .attr("class", "node")
+                    .attr("transform", function(d) {
+                        return "translate(" + d.y + "," + d.x + ")"; });
+
+                nodeEnter.append("circle")
+                    .attr("r", function(d) { return d.value; })
+                    .style("stroke-width", function(d) { return d.outer; })
+                    .style("stroke", function(d) { return d.type; })
+                    .style("fill", function(d) { return d.level; });
+
+                nodeEnter.append("text")
+                    .attr("x", function(d) {
+                        return d.children || d._children ?
+                        (d.value + 4) * -1 : d.value + 4 })
+                    .attr("dy", ".35em")
+                    .attr("fill", "grey")
+                    .attr("text-anchor", function(d) {
+                        return d.children || d._children ? "end" : "start"; })
+                    .text(function(d) { return d.name; })
+                    .style("fill-opacity", 1);
+
+                // Declare the links…
+                var link = svg.selectAll("path.link")
+                    .data(links, function(d) { return d.target.id; });
+
+                // Enter the links.
+                link.enter().insert("path", "g")
+                    .attr("class", "link")
+                    .style("stroke", function(d) { return d.target.level; })
+                    .attr("d", diagonal);
+
+            }
+        }
+
+        function drawLegend() {
+            var circleX = 21;
+            var circleY = 15;
+            var circleY2 = 21;
+            var circleR = 15;
+            var circleS = 4;
+            var textX = 45;
+            var textY = 20;
+
+            var svgWidth = 150;
+            var svgHeight = 50;
+
+            var tempSvg =  d3.select("#view-legend").append("svg").attr("width", 200).attr("height", svgHeight);
+            tempSvg.append("text").attr("x", 0).attr("y", 30).attr("font-size", "15px")
+                .attr("fill", "grey").text("COMPONENT STATES");
+
+            tempSvg =  d3.select("#view-legend").append("svg").attr("width", svgWidth).attr("height", svgHeight);
+            tempSvg.append("circle").attr("cx", circleX).attr("cy", circleY).attr("r", circleR)
+                .style("fill", "red");
+            tempSvg.append("text").attr("x", textX).attr("y", textY).attr("fill", "grey").text("CLOSED");
+
+            tempSvg =  d3.select("#view-legend").append("svg").attr("width", svgWidth).attr("height", svgHeight);
+            tempSvg.append("circle").attr("cx", circleX).attr("cy", circleY).attr("r", circleR)
+                .style("fill", "orange");
+            tempSvg.append("text").attr("x", textX).attr("y", textY).attr("fill", "grey").text("SUSPENDED");
+
+            tempSvg =  d3.select("#view-legend").append("svg").attr("width", svgWidth).attr("height", svgHeight);
+            tempSvg.append("circle").attr("cx", circleX).attr("cy", circleY).attr("r", circleR)
+                .style("fill", "yellow");
+            tempSvg.append("text").attr("x", textX).attr("y", textY).attr("fill", "grey").text("INITIALIZING");
+
+            tempSvg =  d3.select("#view-legend").append("svg").attr("width", svgWidth).attr("height", svgHeight);
+            tempSvg.append("circle").attr("cx", circleX).attr("cy", circleY).attr("r", circleR)
+                .style("fill", "blue").style("float", "left");
+            tempSvg.append("text").attr("x", textX).attr("y", textY).attr("fill", "grey").text("CONNECTING");
+
+            tempSvg =  d3.select("#view-legend").append("svg").attr("width", svgWidth).attr("height", svgHeight);
+            tempSvg.append("circle").attr("cx", circleX).attr("cy", circleY).attr("r", circleR)
+                .style("fill", "green").style("float", "left");
+            tempSvg.append("text").attr("x", textX).attr("y", textY).attr("fill", "grey").text("CONNECTED");
+
+            tempSvg =  d3.select("#view-legend").append("svg").attr("width", 200).attr("height", svgHeight);
+            tempSvg.append("text").attr("x", 0).attr("y", 30).attr("font-size", "15px")
+                .attr("fill", "grey").text("PREVIOUS STATES");
+
+            tempSvg =  d3.select("#view-legend").append("svg").attr("width", svgWidth).attr("height", svgHeight);
+            tempSvg.append("circle").attr("cx", circleX).attr("cy", circleY2).attr("r", circleR)
+                .style("fill", "#2a2a2a").style("stroke", "yellow").style("stroke-width", circleS);
+            tempSvg.append("text").attr("x", textX).attr("y", textY).attr("fill", "grey").text("CLOSED");
+
+            tempSvg =  d3.select("#view-legend").append("svg").attr("width", svgWidth).attr("height", svgHeight);
+            tempSvg.append("circle").attr("cx", circleX).attr("cy", circleY2).attr("r", circleR)
+                .style("fill", "#2a2a2a").style("stroke", "darkgreen").style("stroke-width", circleS);
+            tempSvg.append("text").attr("x", textX).attr("y", textY).attr("fill", "grey").text("CONNECTED");
+        }
+
+    });

@@ -1,0 +1,117 @@
+<!--Modal Dialog to display elaborated data-->
+<div id="specificMsgDialog" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-weight: bold; color: black;">Elaborated Message..</h4>
+            </div>
+            <div class="wd-modal-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div align="center"><h4 style="color:black;"><strong>Request</strong></h4></div>
+                        <div style="font-size: 10px; word-wrap: break-word">
+                            <p><strong>Unique ID: </strong> {{currentMessage.uid}}</p>
+                            <p><strong>Tenant Code: </strong> {{currentMessageJson['HED']['tenantCode']}}</p>
+                            <!--<p><strong>Session ID: </strong>{{currentMessage.sid}}</p>-->
+                            <p><strong>Message: </strong>{{currentMessage.msg}}</p>
+                        </div>
+                    </div>
+                    <div style="font-size: 10px;">
+                        <div align="center"><h4 style="color:black;"><strong>Response</strong></h4></div>
+                        <div class="col-sm-6" style="word-wrap: break-word">
+                            <p><strong>Unique ID: </strong> {{currentResponse.data[0]['unique_request_id']}}</p>
+                            <p><strong>Tenant Code: </strong> {{currentResponse.data[0]['tenantCode']}}</p>
+                            <p><strong>Message: </strong> {{currentResponse.data[0]['message']}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Error Modal -->
+<div id="errorModalSpecificMessages" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-weight: bold; color: black;">Session Details..</h4>
+            </div>
+            <div class="wd-modal-body">
+                <div align="center"><h4>Unfortunately, an error has occurred. Please try with correct configuration.</h4></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel wd-panel dark-panel">
+            <h3>Specific Messages</h3>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default" style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <div class="panel-heading">Overall Information</div>
+            <div class="panel-body" style="background-color: #2a2a2a">
+                <div class="col-md-3" align="center">
+                    <h5 style="color: white">{{sessionId}}</h5>
+                    <h4><strong>Session ID</strong></h4>
+                </div>
+                <div class="col-md-3" align="center">
+                    <h5 style="color: white">{{clientIp}}</h5>
+                    <h4><strong>Client IP</strong></h4>
+                </div>
+                <div class="col-md-1" align="center">
+                    <h5 style="color: white">{{loginId}}</h5>
+                    <h4><strong>Login ID</strong></h4>
+                </div>
+                <div class="col-md-3" align="center" ng-if="visibilityOfChannel">
+                    <h5 style="color: white">{{channel}}</h5>
+                    <div ng-if="!visibilityOfChannel">
+                        <h5 style="color: white">--</h5>
+                    </div>
+                    <h4><strong>Channel</strong></h4>
+                </div>
+                <div class="col-md-2" align="center" ng-if="tenantCode != ''">
+                    <h5 style="color: white">{{tenantCode}}</h5>
+                    <h4><strong>Tenant Code</strong></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive container-fluid" style="font-size: 10px;">
+                <table id="specificMessages" class="cinereousTable table-hover">
+                    <thead>
+                    <tr>
+                        <th>Mes.Typ.</th>
+                        <th>Un. Req. ID</th>
+                        <th>TimeStmp</th>
+                        <th>ResponseTime (ms)</th>
+                        <!--<th>Cus.ID</th>-->
+                        <th>Msg</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,181 @@
+<div class="panel-group" id="accordion">
+    <div class="panel wd-panel">
+        <div class="panel-heading wd-panel-heading">
+            <a data-toggle="collapse" data-parent="#accordion" href="javascript:" data-target="#collapse1">LEVEL 1</a>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <p>FIX Log</p>
+
+                <div class="wd-table-container">
+                    <table class="wd-table">
+                        <thead>
+                        <tr>
+                            <!--<th>clOrdID</th>
+                            <th>execID</th>
+                            <th>symbol</th>
+                            <th>lastPrice</th>
+                            <th>lastShares</th>
+                            <th>status</th>
+                            <th>transactTime</th>-->
+                            <th>fix message</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="record in level1fixlogs">
+                            <!--<td>{{record["clOrdID"]}}</td>
+                            <td>{{record["execID"]}}</td>
+                            <td>{{record["symbol"]}}</td>
+                            <td>{{record["lastPrice"]}}</td>
+                            <td>{{record["lastShares"]}}</td>
+                            <td>{{record["status"]}}</td>
+                            <td>{{record["transactTime"]}}</td>-->
+                            <td>{{record["data"]}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>Order Audit</p>
+
+                <div class="wd-table-container">
+                    <table class="wd-table">
+                        <thead>
+                        <tr>
+                            <th>clOrdID</th>
+                            <th>execID</th>
+                            <th>symbol</th>
+                            <th>lastPrice</th>
+                            <th>lastShares</th>
+                            <th>status</th>
+                            <th>LeavesQty</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="record in level1orderaudit">
+                            <td>{{record["clOrdID"]}}</td>
+                            <td>{{record["execID"]}}</td>
+                            <td>{{record["symbol"]}}</td>
+                            <td>{{record["lastPrice"]}}</td>
+                            <td>{{record["lastShares"]}}</td>
+                            <td>{{record["status"]}}</td>
+                            <td>{{record["leavesQty"]}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel wd-panel">
+        <div class="panel-heading wd-panel-heading">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">LEVEL 2</a>
+        </div>
+        <div id="collapse2" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div class="wd-table-container">
+                    <table class="wd-table">
+                        <thead>
+                        <tr>
+                            <th>clOrdID</th>
+                            <th>execID</th>
+                            <th>symbol</th>
+                            <th>fixlastprice</th>
+                            <th>fixlashtshares</th>
+                            <th>auditlastprice</th>
+                            <th>auditlastshares</th>
+                            <th>status</th>
+                            <th>time</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="record in level2">
+                            <td>{{record["clOrdID"]}}</td>
+                            <td>{{record["execID"]}}</td>
+                            <td>{{record["symbol"]}}</td>
+                            <td>{{record["fixLastPrice"]}}</td>
+                            <td>{{record["fixLastShares"]}}</td>
+                            <td>{{record["auditLastPrice"]}}</td>
+                            <td>{{record["auditLastShares"]}}</td>
+                            <td>{{record["status"]}}</td>
+                            <td>{{record["transactTime"]}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel wd-panel">
+        <div class="panel-heading wd-panel-heading">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Level 3</a>
+        </div>
+        <div id="collapse3" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <p>Cash Resolution</p>
+
+                <div class="wd-table-container">
+                    <table class="wd-table">
+                        <thead>
+                        <tr>
+                            <th>cashacntid</th>
+                            <th>cashBalance</th>
+                            <th>reconbalance</th>
+                            <th>block</th>
+                            <th>reconblock</th>
+                            <th>payable</th>
+                            <th>reconpayable</th>
+                            <th>receivable</th>
+                            <th>reconreceivable</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="record in cashResolution">
+                            <td>{{record["cashacntid"]}}</td>
+                            <td>{{record["cashBalance"]}}</td>
+                            <td>{{record["reconbalance"]}}</td>
+                            <td>{{record["block"]}}</td>
+                            <td>{{record["reconblock"]}}</td>
+                            <td>{{record["payable"]}}</td>
+                            <td>{{record["reconpayable"]}}</td>
+                            <td>{{record["receivable"]}}</td>
+                            <td>{{record["reconreceivable"]}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>Holding Resolution</p>
+
+                <div class="wd-table-container">
+                    <table class="wd-table">
+                        <thead>
+                        <tr>
+                            <th>key</th>
+                            <th>holdingblock</th>
+                            <th>holdingblockrecon</th>
+                            <th>netholding</th>
+                            <th>netholdingrecon</th>
+                            <th>payableholding</th>
+                            <th>payableholdingrecon</th>
+                            <th>receivableholding</th>
+                            <th>receivableholdingrecon</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="record in holdingResolution">
+                            <td>{{record["key"]}}</td>
+                            <td>{{record["holdingblock"]}}</td>
+                            <td>{{record["holdingblockrecon"]}}</td>
+                            <td>{{record["netholding"]}}</td>
+                            <td>{{record["netholdingrecon"]}}</td>
+                            <td>{{record["payableholding"]}}</td>
+                            <td>{{record["payableholdingrecon"]}}</td>
+                            <td>{{record["receivableholding"]}}</td>
+                            <td>{{record["receivableholdingrecon"]}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

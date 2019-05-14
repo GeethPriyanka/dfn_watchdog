@@ -1,0 +1,25 @@
+host: 127.0.0.1
+port: 7802
+heartbeatDelay: 3
+heartbeatPeriod: 2
+readTimeout: 6
+nodeTimeout: 12
+reconnectDelay: 5
+secured: false
+
+cluster:
+  OMS: 2
+  GATEWAY: 2
+  DFIX: 2
+  AURA: 1
+
+clientPort: 8888
+
+database:
+  name: cassandra
+  ip: 127.0.0.1
+  port: 9142
+  url:
+  user: dfn_ntp
+  password: password
+  cluster: watchdog

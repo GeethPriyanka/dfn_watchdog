@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <File name="file" fileName="./logs/watchdog.log" immediateFlush="true" append="false">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p (%F:%L) (%t) (%X{uniqueRequestId}) %msg%n"/>
+        </File>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%highlight{%d{MMM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36}:%L - %msg%n}{FATAL=red, ERROR=red, WARN=blue, INFO=white, DEBUG=green, TRACE=white}"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="file"/>
+        </Root>
+    </Loggers>
+</Configuration>

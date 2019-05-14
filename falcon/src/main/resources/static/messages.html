@@ -1,0 +1,101 @@
+<!--Modal Dialog to display elaborated data-->
+<div id="msgDialog" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-weight: bold; color: black;">Elaborated Message..</h4>
+            </div>
+            <div class="wd-modal-body">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div style="font-size: 10px;">
+                            <p><strong>Unique ID: </strong> {{currentMessage.uid}}</p>
+                            <p><strong>Tenant Code: </strong> {{currentMessage.tcode}}</p>
+                            <p><strong>Session ID: </strong>{{currentMessage.sid}}</p>
+                            <p><strong>Message: </strong>{{currentMessage.msg}}</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <!--TODO: A chart to be displayed here-->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Error Modal -->
+<div id="errorModalMessageDataTables" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-weight: bold; color: black;">Session Details..</h4>
+            </div>
+            <div class="wd-modal-body">
+                <div align="center"><h4>Unfortunately, an error has occurred. Please try with correct configuration.</h4></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Heading-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel wd-panel dark-panel">
+            <h3>Messages (Requests & Responses)</h3>
+        </div>
+    </div>
+</div>
+<br />
+
+<!--Chart -->
+<div class="row">
+    <div class="col-md-12">
+        <div align="center" class="center-block">
+            <h5>Percentages per Server</h5>
+            <svg width="300" height="200"></svg>
+        </div>
+    </div>
+</div>
+
+<!--Table toggle button -->
+<div class="row">
+    <div class="col-md-12">
+        <button type="button" class="btn btn-primary" ng-click="toggleTable()">Toggle Table</button>
+    </div>
+</div>
+
+<hr />
+
+<!--Table-->
+<div class="row" ng-style="{visibility: loadTable?'visible':'hidden'}">
+    <div class="col-md-12">
+        <div class="table-responsive container-fluid" style="font-size: 10px;">
+            <table id="messages" class="cinereousTable table-hover" style="font-size: 10px;">
+                <thead>
+                <tr>
+                    <th>Chn</th>
+                    <th>Mes.Typ.</th>
+                    <th>Log.ID</th>
+                    <th>Un. Req. ID</th>
+                    <th>Cl.IP</th>
+                    <th>Ses.ID</th>
+                    <th>Req. TimeStmp</th>
+                    <th>Cus.ID</th>
+                    <th>CVER</th>
+                    <th>Tcode</th>
+                    <th>Msg</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-sm-12 ">
+        <div class="panel wd-panel">
+            <table class="wd-table">
+                <thead>
+                <tr>
+                    <th>NODE</th>
+                    <th>IP ADDRESS</th>
+                    <th>STATE</th>
+                    <th>SHUTDOWN</th>
+                    <th>RESTART</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="node in manageView">
+                    <td>{{node["NAME"]}}</td>
+                    <td>{{node["IP"]}}</td>
+                    <td class='{{node["STATE"]}}'>{{node["STATE"]}}</td>
+                    <td><input type="button" value="Shutdown" class="btn btn-sm btn-danger"></td>
+                    <td><input type="button" value="Restart" class="btn btn-sm btn-danger"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <form ng-submit="startEod()">
+            <input type="submit" value="START EOD" class="btn btn-primary">
+        </form>
+    </div>
+</div>

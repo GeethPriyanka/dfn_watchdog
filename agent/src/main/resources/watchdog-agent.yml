@@ -1,0 +1,20 @@
+agentId: 1
+agentType: GATEWAY
+baseUrl: /project
+active: true
+
+serverIp: 127.0.0.1
+port: 7802
+
+#secondaryServerIp: 192.168.14.214
+#secondaryServerPort: 7802
+
+reconnectDelay: 8
+readTimeout: 6
+heartbeatDelay: 3
+heartbeatPeriod: 2
+secured: false
+
+agentThreads: 5
+
+monitorPeriod: 10

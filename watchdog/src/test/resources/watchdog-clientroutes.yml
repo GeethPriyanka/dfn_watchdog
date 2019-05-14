@@ -1,0 +1,13 @@
+name: watchdog
+
+columnFamilies:
+- name: clientroutestemp
+  defaultColumnValueType: UTF8Type
+  columnsMetadata:
+    - {name: clientid, validationClass: LongType, indexType: KEYS}
+    - {name: nextnode, validationClass: IntegerType}
+  rows:
+  - key: 10
+    columns:
+    - {name: clientid, value: 10001}
+    - {name: nextnode, value: 1}

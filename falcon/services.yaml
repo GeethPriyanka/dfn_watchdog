@@ -1,0 +1,329 @@
+locations:
+  - locationName : trading
+    server : OMS
+    id : 1
+  - locationName : inquiry
+    server : AURA
+    id : 1
+
+services:
+  - id: 1
+    serviceName: login
+    location : inquiryService
+    type : rest
+    url : /login/primary
+  - id: 2
+    serviceName: new_order
+    location : tradingService
+    type : websocket
+    url : /
+  - id: 3
+    serviceName: heartbeat
+    location : tradingService
+    type : websocket
+    url : /
+  - id: 4
+    serviceName: holding_detail
+    location : inquiryService
+    type : rest
+    url : /account/inquiry/holdings
+  - id: 5
+    serviceName: buyingpower
+    location : tradingService
+    type : rest
+    url : /CORE/INQ/BuyingPower/NoneMargin
+  - id: 6
+    serviceName: account_headers
+    location : inquiryService
+    type : rest
+    url : /account/inquiry/headers
+  - id: 7
+    serviceName: exchange_config
+    location : inquiryService
+    type : rest
+    url : /dealer/inquiry/exchange/config
+  - id: 9
+    serviceName: beneficiary_list
+    location : inquiryService
+    type : rest
+    url : /account/inquiry/beneficiary
+  - id: 10
+    serviceName: cash_credit
+    location : tradingService
+    type : rest
+    url : /CORE/TXN/CashTxn/Credit/
+  - id: 11
+    serviceName: cash_debit
+    location : tradingService
+    type : rest
+    url : /CORE/TXN/CashTxn/Debit/
+  - id: 12
+    serviceName: cash_transfer
+    location : tradingService
+    type : rest
+    url : /CORE/TXN/CashTxn/CashTransfer/
+  - id: 13
+    serviceName: transaction_history
+    location : inquiryService
+    type : rest
+    url : /account/inquiry/transaction/history
+  - id: 14
+    serviceName: charge_refund
+    location : tradingService
+    type : rest
+    url : /CORE/TXN/CashTxn/ChargeRefundReq/
+  - id: 15
+    serviceName: amend_order
+    location : tradingService
+    type : websocket
+    url : /
+  - id: 16
+    serviceName: cancel_order
+    location : tradingService
+    type : websocket
+    url : /
+  - id: 17
+    serviceName: reverse_order
+    location : tradingService
+    type : websocket
+    url : /
+  - id: 18
+    serviceName: manual_order_execution
+    location : tradingService
+    type : websocket
+    url : /
+  - id: 19
+    serviceName: order_expiry
+    location : tradingService
+    type : websocket
+    url : /
+  - id: 21
+    serviceName: approve_reject_park_order
+    location : tradingService
+    type : websocket
+    url : /
+  - id: 23
+    serviceName: order_list
+    location : inquiryService
+    type : rest
+    url : /orderSearch/orderList
+  - id: 24
+    serviceName: order_search
+    location : inquiryService
+    type : rest
+    url : /orderSearch/orderSearch
+  - id: 25
+    serviceName: share_transfer
+    location : tradingService
+    type : rest
+    url : /CORE/TXN/HoldTxn/Request
+  - id: 26
+    serviceName: share_transfer_approve
+    location : tradingService
+    type : rest
+    url : /CORE/TXN/HoldTxn/AppRequest
+  - id: 27
+    serviceName: pledge
+    location : tradingService
+    type : rest
+    url : /CORE/TXN/HoldTxn/AddPledge
+  - id: 28
+    serviceName: pledge_approve
+    location : tradingService
+    type : rest
+    url : /CORE/TXN/HoldTxn/ApprovePledge
+  - id: 29
+    serviceName: masterdata_version
+    location : inquiryService
+    type : rest
+    url : /dealer/inquiry/masterdata/version
+  - id: 30
+    serviceName: masterdata
+    location : inquiryService
+    type : rest
+    url : /dealer/inquiry/masterdata
+  - id: 31
+    serviceName: exchange_rates
+    location : inquiryService
+    type : rest
+    url : /dealer/inquiry/exchange/rates
+  - id: 32
+    serviceName: restricted_symbols
+    location : inquiryService
+    type : rest
+    url : /dealer/inquiry/symbols/restricted
+  - id: 33
+    serviceName: client_rules
+    location : inquiryService
+    type : rest
+    url : /dealer/inquiry/rules
+  - id: 34
+    serviceName: manual_pre_open
+    location : tradingService
+    type : rest
+    url : /CORE/TXN/AdminAct/PreOpenReq
+  - id: 35
+    serviceName: manual_eod
+    location : tradingService
+    type : rest
+    url : /CORE/TXN/AdminAct/EODReq    
+  - id: 37
+    serviceName: u_messages
+    location : tradingService
+    type : rest
+    url : /COUNTRY/TXN/UMessage
+  - id: 38
+    serviceName: account_details_dt
+    location : inquiryService
+    type : rest
+    url : /account/inquiry/details
+  - id: 39
+    serviceName: update_holding_with_exchange
+    location : tradingService
+    type : rest
+    url : /COUNTRY/TXN/HoldTxn/UpdateHoldingWithExchange
+  - id: 40
+    serviceName: exchange_dailyFileUpload
+    location : tradingService
+    type : rest
+    url : /CORE/INQ/eod/exchange/dailyfileupload/
+  - id: 41
+    serviceName: customer_search
+    location : inquiryService
+    type : rest
+    url : /customer/inquiry/search
+  - id: 42
+    serviceName: resend_order
+    location : tradingService
+    type : websocket
+    url : /
+  - id: 43
+    serviceName: set_trading_market_status
+    location : tradingService
+    type : rest
+    url : /CORE/TXN/AdminAct/SetTrdMktStatus
+  - id: 44
+    serviceName: get_trading_market_status
+    location : tradingService
+    type : rest
+    url : /CORE/TXN/AdminAct/GetMarketStatus
+  - id: 45
+    serviceName: manual_suspend_trading_market
+    location : tradingService
+    type : rest
+    url : /CORE/TXN/AdminAct/TrdMktManualSuspend
+  - id: 46
+    serviceName: buyingpower
+    location : tradingService
+    type : rest
+    url : /CORE/INQ/BuyingPower/Margin
+  - id: 47
+    serviceName: order_commission
+    location : tradingService
+    type : rest
+    url : /CORE/INQ/order/commission/
+  - id: 48
+    serviceName: order_history
+    location : inquiryService
+    type : rest
+    url : /orderSearch/orderHistory
+  - id: 49
+    serviceName: poa_list
+    location : inquiryService
+    type : rest
+    url : /account/inquiry/poa
+  - id: 50
+    serviceName: right_subscription_list
+    location : inquiryService
+    type : rest
+    url : /orderSearch/rightSubscriptions
+  - id: 51
+    serviceName: right_subscription
+    location : tradingService
+    type : rest
+    url : /CORE/TXN/CashTxn/ChargeRefundReq/
+  - id: 52
+    serviceName: get_customer
+    location : inquiryService
+    type : rest
+    url : /customer/inquiry/number
+  - id: 53
+    serviceName: weekly_reconcilation
+    location : tradingService
+    type : websocket
+    url : /
+  - id: 54
+    serviceName: dt_auto_update
+    location : inquiryService
+    type : rest
+    url : /client/product/version/upgrade
+  - id: 55
+    serviceName: daily_holdings_reconcilation
+    location : tradingService
+    type : websocket
+    url : /
+  - id: 56
+    serviceName: "subscription_request"
+    location: "tradingService"
+    type: "websocket"
+    url: /
+  - id: 57
+    serviceName: "subscription_approve"
+    location: "tradingService"
+    type: "websocket"
+    url: /
+  - id: 58
+    serviceName: "subscription_cancel"
+    location: "tradingService"
+    type: "websocket"
+    url: /
+  - id: 59
+    serviceName: "BFile_Reconcilation"
+    location: "tradingService"
+    type: "websocket"
+    url: /
+  - id: 60
+    serviceName: "trade_connection_summary"
+    location: "inquiryService"
+    type: "rest"
+    url: "/dealer/inquiry/trade/connection"
+  - id: 61
+    serviceName: "suspend_activate_order"
+    location: "tradingService"
+    type: "websocket"
+    url: /
+  - id: 301
+    serviceName: transaction_approve
+    location : tradingService
+    type : rest
+    url : /CORE/TXN/CashTxn/CashTxnApprove/
+  - id: 302
+    serviceName: transaction_reject
+    location : tradingService
+    type : rest
+    url : /CORE/TXN/CashTxn/CashTxnReject/
+  - id: 400
+    serviceName: clear_cache
+    location : tradingService
+    type : rest
+    url : /CORE/STORE/clearStore
+  - id: 401
+    serviceName: load_dealer_trading_groups
+    location : inquiryService
+    type : rest
+    url : /internal/system/dealer/groups
+  - id: 402
+    serviceName: logout
+    location : inquiryService
+    type : rest
+    url : /login/logout
+  - id: 403
+    serviceName: session_status
+    location : inquiryService
+    type : rest
+    url : /login/session
+
+
+
+
+

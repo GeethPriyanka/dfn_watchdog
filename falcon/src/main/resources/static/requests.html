@@ -1,0 +1,68 @@
+<div class="col-sm-6">
+    <div class="panel wd-panel">
+        <div class="panel-heading wd-panel-heading">
+            <a data-toggle="collapse" data-parent="#accordion" href="#">Client Routes</a> Filter: <input class="form-control display-inline" type="text" ng-model="search.client">
+        </div>
+        <div class="panel-heading wd-panel-heading">
+            <a data-toggle="collapse" data-parent="#accordion" href="#">Client Routes</a> Filter: OMS-<input class="form-control display-inline" type="text" ng-model="nodeFilter.nextNode">
+        </div>
+        <div class="panel-collapse collapse in">
+            <table class="wd-table">
+                <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Next Node</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="record in clientRoutesAll | filter:search | filter: nodeFilter | orderBy : 'client' | orderBy: 'nextNode'">
+                    <td>{{record["client"]}}</td>
+                    <td>OMS-{{record["nextNode"]}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div id="main-request" class="panel wd-panel">
+        <form ng-submit="getRoutes()">
+            Client ID: <input class="form-control display-inline" type="text" ng-model="clientId">
+            <input type="submit" value="GET ROUTES" class="btn btn-primary">
+        </form>
+
+        <div ng-hide="routes == null" id="request-results" class="get-routes">
+
+            <div>Client ID: {{routes.clientId}}</div>
+            <div>Endpoints: {{routes.endPoints}}</div>
+            <ul>
+                <li ng-repeat="(key, value) in routes.routes">{{key}} => {{value}}</li>
+            </ul>
+        </div>
+    </div>
+    <div id="main-request-history" class="panel wd-panel">
+        <form ng-submit="getRoutesHistory()">
+            Client ID: <input class="form-control display-inline" type="text" ng-model="clientIdHistory">
+            <input type="submit" value="GET HISTORY" class="btn btn-primary">
+        </form>
+
+        <div ng-hide="routesHistory == null" id="request-results-history" class="get-routes">
+            <table class="wd-table">
+                <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Next Node</th>
+                    <th>Update Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="record in routesHistory | orderBy : '-updateTime' | limitTo : 10">
+                    <td>{{record["client"]}}</td>
+                    <td>OMS-{{record["nextNode"]}}</td>
+                    <td>{{record["updateTime"]}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

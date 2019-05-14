@@ -1,0 +1,138 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel wd-panel dark-panel">
+            <h3>Messages</h3>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <label for="fromDateMessage">Filter From</label>
+        <input type='date' id="fromDateMessage" ng-model="fromMessageFilter" class="form-control" />
+    </div>
+    <div class="col-md-4">
+        <label for="toDateMessage">Filter To</label>
+        <input type='date' id="toDateMessage" ng-model="toMessageFilter" class="form-control" />
+    </div>
+    <div class="col-md-4">
+        <label for="searchBtnMessage">Search</label><br />
+        <button class="btn btn-default wd-form-control" id="searchBtnMessage" ng-click = "filterMessages();">Search</button>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <tr style="color: white">
+                    <th align="center">Unique Req. ID</th>
+                    <th align="center">Tenant Code</th>
+                    <th align="center">Session ID</th>
+                    <th align="center">Message Type</th>
+                    <th align="center">Login ID</th>
+                    <th align="center">Date</th>
+                    <th align="center">Customer ID</th>
+                    <th align="center">Comm. Ver.</th>
+                    <th align="center">Client IP</th>
+                    <th align="center">Channel</th>
+                    <th align="center">Message</th>
+                </tr>
+                <tr ng-repeat="message in messages">
+                    <td align="center">{{message["unique_request_id"] === "" ? '-' : message['unique_request_id']}}</td>
+                    <td align="center">{{message["tenantCode"] === "" ? '-' : message['tenantCode']}}</td>
+                    <td align="center">{{message["session_id"] === "" ? '-' : message["session_id"]}}</td>
+                    <td align="center">{{message["message_type"] === "" ? '-' : message['message_type']}}</td>
+                    <td align="center">{{message["login_id"] === "" ? '-' : message['login_id']}}</td>
+                    <td align="center">{{parseDates(message["date"])  === "" ? '-' : parseDates(message['date'])}}</td>
+                    <td align="center">{{message["customer_id"] === "" ? '-' : message['customer_id']}}</td>
+                    <td align="center">{{message["comm_ver"] === "" ? '-' : message['customer_id']}}</td>
+                    <td align="center">{{message["client_ip"] === "" ? '-' : message['client_ip']}}</td>
+                    <td align="center">{{message["channel"] === "" ? '-' : message['channel']}}</td>
+                    <td align="center">{{message["message"] | limitTo:40:0 | newline}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel wd-panel dark-panel">
+            <h3>Responses</h3>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <label for="fromDateResponse">Filter From</label>
+        <input type='date' id="fromDateResponse" class="form-control" ng-model="fromResponsesFilter"/>
+    </div>
+    <div class="col-md-4">
+        <label for="toDateResponse">Filter To</label>
+        <input type='date' id="toDateResponse" class="form-control" ng-model="toResponseFilter"/>
+    </div>
+    <div class="col-md-4">
+        <label for="searchBtnResponse">Search</label><br />
+        <button class="btn btn-default wd-form-control" id="searchBtnResponse" ng-click = "filterResponses()">Search</button>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <tr style="color: white">
+                    <th align="center">Unique Req. ID</th>
+                    <th align="center">Tenant Code</th>
+                    <th align="center">Session ID</th>
+                    <th align="center">Message Type</th>
+                    <th align="center">Login ID</th>
+                    <th align="center">Date</th>
+                    <th align="center">Comm. Ver.</th>
+                    <th align="center">Client IP</th>
+                    <th align="center">Channel</th>
+                    <th align="center">Message</th>
+                </tr>
+                <tr ng-repeat="response in responses">
+                    <td align="center">{{response["unique_request_id"]}}</td>
+                    <td align="center">{{response["tenantCode"]}}</td>
+                    <td align="center">{{response["session_id"]}}</td>
+                    <td align="center">{{response["message_type"]}}</td>
+                    <td align="center">{{response["login_id"]}}</td>
+                    <td align="center">{{parseDates(response["date"])}}</td>
+                    <td align="center">{{response["comm_ver"]}}</td>
+                    <td align="center">{{response["client_ip"]}}</td>
+                    <td align="center">{{response["channel"]}}</td>
+                    <td class="block" align="center">
+                        {{response["message"] | limitTo:40:0}} .....<br />
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="displayMoreOfResponse(response['message'])">More</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--Testing area here onwards-->
+<div class="row">
+    <table id="animalContainer" class="table table-striped table-hover table-condensed">
+        <thead>
+        <tr>
+            <th>CUR</th>
+            <th>Symbol</th>
+            <th>Last</th>
+            <th>High</th>
+            <th>Low</th>
+            <th>Volume</th>
+            <th>VWap</th>
+            <th>Max Bid</th>
+            <th>Min Ask</th>
+            <th>Best Bid</th>
+            <th>Best Ask</th>
+        </tr>
+        </thead>
+    </table>
+</div>

@@ -1,0 +1,143 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel wd-panel dark-panel">
+            <div ng-show="true" class="stat-container">
+                <div class="stat">
+                    <h1>{{$root.sysMetrics["disconnects"]}}</h1>
+                    <h4>Disconnections</h4>
+                </div>
+                <div class="stat">
+                    <h1>{{$root.sysMetrics["failed"]}}</h1>
+                    <h4>Lost Messages</h4>
+                </div>
+                <div class="stat">
+                    <h1>{{$root.sysMetrics["tps"] | number : fractionSize}}</h1>
+                    <h4>Transactions /s</h4>
+                </div>
+                <div class="stat">
+                    <h1>{{$root.sysMetrics["rtt"]}}</h1>
+                    <h4>Round Trip Time</h4>
+                </div>
+                <div class="stat">
+                    <h1>{{$root.sysMetrics["requests"] | number : fractionSize}}</h1>
+                    <h4>Total Requests</h4>
+                </div>
+                <div class="stat">
+                    <h1>{{$root.sysMetrics["clients"]}}</h1>
+                    <h4>Connected Clients</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-7">
+        <div ng-show="true" class="panel wd-panel">
+            <table class="wd-table">
+                <thead>
+                <tr>
+                    <th>NODE</th>
+                    <th>IP</th>
+                    <th>STATE</th>
+                    <th>MEMORY (MB)</th>
+                    <th>THREADS</th>
+                    <th>CPU %</th>
+                    <th>Last</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="node in $root.view.nodes | orderBy:'nodeName'"  class={{node["state"]}}>
+                    <td>{{node["nodeName"]}}</td>
+                    <td>{{node["ip"]}}</td>
+                    <td class={{node["state"]}}>{{node["state"]}}</td>
+                    <td>{{node["metric"].usedMemory}} / {{node["metric"].maxMemory}}</td>
+                    <td>{{node["metric"].threadCount}}</td>
+                    <td><!--{{node["metric"].processCpuUsage}} / -->{{node["metric"].systemCpuUsage}}</td>
+                    <td>{{node["metric"].lastUpdateTime}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="panel wd-panel" id="dashboard-blocks">
+            <div class="wd-panel-heading">
+                Block view
+            </div>
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+    </div>
+</div>
+<div ng-show="showKibanaDashboard" class="row">
+    <div class="col-md-6">
+        <div class="panel wd-panel" id="tps-kibana-wrap-all">
+            <div class="wd-panel-heading">
+                TPS (Executions + Orders) Graph
+            </div>
+            <!--<iframe frameborder="0" src="http://ntp-kibana.directfn.net/app/kibana#/visualize/edit/5a663080-9d3a-11e7-a67b-8bf9d4ab9c1d?embed=true&_g=(refreshInterval%3A('%24%24hashKey'%3A'object%3A201'%2Cdisplay%3A'5%20seconds'%2Cpause%3A!f%2Csection%3A1%2Cvalue%3A5000)%2Ctime%3A(from%3Anow-15m%2Cmode%3Aquick%2Cto%3Anow))"
+                    height="350" width="100%"></iframe>-->
+            <iframe frameborder="0" src="http://elk.directfn.net/goto/c1373f17e1d88db0328a447363ae018f?embed=true"
+                    height="350" width="100%"></iframe>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+        <div class="panel wd-panel" id="dashboard-load">
+            <div class="wd-panel-heading">
+                System Load Average
+            </div>
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+
+    </div>
+</div>
+<div ng-show="showKibanaDashboard" class="row">
+    <div class="col-md-6">
+        <div class="panel wd-panel" id="tps-kibana-wrap-orders">
+            <div class="wd-panel-heading">
+                TPS (orders) Graph
+            </div>
+            <!--<iframe frameborder="0" src="http://ntp-kibana.directfn.net/app/kibana#/visualize/edit/5d338780-8724-11e7-9fcd-e92cca03de87?embed=true&_g=(refreshInterval%3A('%24%24hashKey'%3A'object%3A305'%2Cdisplay%3A'5%20seconds'%2Cpause%3A!f%2Csection%3A1%2Cvalue%3A5000)%2Ctime%3A(from%3Anow-15m%2Cmode%3Aquick%2Cto%3Anow))"
+                    height="350" width="100%"></iframe>-->
+            <iframe frameborder="0" src="http://elk.directfn.net/goto/4f71cde1461ab78015ed4daaac5831e9?embed=true"
+                    height="350" width="100%"></iframe>
+        </div>
+        <div ng-show="false" class="panel wd-panel" id="dashboard-tps">
+            <div class="wd-panel-heading">
+                Transactions Per Second
+            </div>
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel wd-panel" id="tps-kibana-wrap-executions">
+            <div class="wd-panel-heading">
+                TPS (Executions) Graph
+            </div>
+            <!--<iframe frameborder="0" src="http://ntp-kibana.directfn.net/app/kibana#/visualize/edit/03e417f0-87e5-11e7-aab5-5f76b40c9632?embed=true&_g=(refreshInterval%3A('%24%24hashKey'%3A'object%3A208'%2Cdisplay%3A'5%20seconds'%2Cpause%3A!f%2Csection%3A1%2Cvalue%3A5000)%2Ctime%3A(from%3Anow-15m%2Cmode%3Aquick%2Cto%3Anow))"
+                    height="350" width="100%"></iframe>-->
+            <iframe frameborder="0" src="http://elk.directfn.net/goto/7f8cfc2b8f1ecdb3cbafa2f1f928a511?embed=true"
+                    height="350" width="100%"></iframe>
+        </div>
+    </div>
+</div>
+
+
+<div ng-show="false" class="row">
+    <div class="col-md-4">
+        <div class="panel wd-panel" id="dashboard-view">
+            <div class="wd-panel-heading">
+                Node Structure
+            </div>
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+    </div>
+    <div class="col-md-4 wd-col">
+        <div class="panel wd-panel" id="dashboard-lost-messages">
+            <div class="wd-panel-heading">
+                Lost Messages
+            </div>
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+    </div>
+</div>

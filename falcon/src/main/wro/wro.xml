@@ -1,0 +1,33 @@
+<groups xmlns="http://www.isdc.ro/wro">
+    <group name="angular-bootstrap">
+        <css>webjar:bootstrap/@bootstrap.version@/less/bootstrap.less</css>
+        <css>file:@project.basedir@/src/main/wro/main.less</css>
+        <js>webjar:jquery/@jquery.version@/jquery.min.js</js>
+        <js>webjar:jquery-ui/@jquery-ui.version@/jquery-ui.min.js</js>
+        <js>webjar:angularjs/@angularjs.version@/angular.min.js</js>
+        <js>webjar:angularjs/@angularjs.version@/angular-route.min.js</js>
+        <js>webjar:angularjs/@angularjs.version@/angular-cookies.min.js</js>
+        <js>webjar:bootstrap/@bootstrap.version@/js/bootstrap.min.js</js>
+        <js>webjar:d3js/@d3.version@/d3.min.js</js>
+        <js>webjar:c3/@c3.version@/c3.min.js</js>
+        <js>webjar:morrisjs/@morrisjs.version@/morris.min.js</js>
+    </group>
+    <group name="datatables-js">
+        <js>webjar:datatables/@datatables.version@/js/jquery.dataTables.min.js</js>
+        <js>webjar:datatables/@datatables.version@/js/dataTables.bootstrap.js</js>
+    </group>
+    <group name="datatables-css">
+        <css>webjar:datatables/@datatables.version@/css/dataTables.bootstrap.min.css</css>
+    </group>
+    <group name="chartjs">
+        <js>webjar:chartjs/@chartjs.version@/Chart.bundle.min.js</js>
+    </group>
+    <group name="dynatable">
+        <css>webjar:jquery-dynatable/@dynatable.version@/jquery.dynatable.css</css>
+        <js>webjar:jquery-dynatable/@dynatable.version@/jquery.dynatable.js</js>
+        <js>webjar:jquery-dynatable/@dynatable.version@/webjars-requirejs.js</js>
+    </group>
+    <group name="metrics-graphics">
+        <js>webjar:metrics-graphics/dist/metricsgraphics.min.js</js>
+    </group>
+</groups>

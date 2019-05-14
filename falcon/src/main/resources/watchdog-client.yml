@@ -1,0 +1,46 @@
+serverIp: 127.0.0.1
+port: 7803
+
+host: 127.0.0.1
+secured: false
+
+#websocketUrl: ntp-falconws.directfn.net/websocket
+#websocketUrl: 192.168.0.50:7804/websocket
+websocketUrl: 127.0.0.1/websocket
+#websocketUrl: 127.0.0.1:7804/websocket
+
+#Database which stores client data - standalone mode
+standaloneDatabase:
+  driverClass : org.h2.Driver
+  url : jdbc:h2:tcp://192.168.0.50:8085/~/sessionpersistingdatabase
+  user : sa
+  password :
+
+# enable the database operation
+enableDatabase : true
+# enable queuing - if disabled and database enabled, records will persist without intermediate in-memory queues.
+enableQueues: false
+
+# Counts for queues.
+queueConfigs:
+  sessionQueueCount : 10
+  messageQueueCount: 10
+  responseQueueCount : 10
+  sessionQueueTimeout : 1000
+  messageQueueTimeout : 10000
+  responseQueueTimeout : 10000
+
+elasticSearch: false
+elasticIp: 192.168.14.215
+elasticPort: 9300
+
+showKibanaDashboard: true
+
+database:
+  name: oracle
+  ip: 192.168.0.52
+  port: 9042
+  url: jdbc:oracle:thin:@//192.168.14.240/NEWOMS
+  user: dfn_ntp
+  password: Dz8rUw5pJngH3PO8ra3BPw==
+  cluster: watchdog

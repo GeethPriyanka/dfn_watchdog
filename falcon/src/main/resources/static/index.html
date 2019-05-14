@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+    <title>DFN-FALCON</title>
+    <link
+            href="css/angular-bootstrap.css"
+            rel="stylesheet">
+    <link rel="stylesheet" href="css/datatables-css.css">
+    <style type="text/css">
+        [ng\:cloak], [ng-cloak], .ng-cloak {
+            display: none !important;
+        }
+    </style>
+    <style>
+        .table-hover {
+            background-color: #919191;
+            color: #000000;
+        }
+    </style>
+    <script>
+        $('.modal-dialog').draggable({
+            handle: ".modal-header"
+        });
+    </script>
+    <link rel="stylesheet" href="css/datatables-css.css">
+</head>
+
+<body ng-app="watchdogClient" ng-cloak class="ng-cloak">
+
+<nav ng-controller="navigation as nav" class="navbar navbar-inverse navbar-fixed-top wd-navbar">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><img src="img/logo.png"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#/home">HOME</a></li>
+                <li ng-show="!authenticated"><a href="#/login">LOGIN</a></li>
+                <li ng-show="authenticated"><a href="" ng-click="nav.logout()">LOGOUT</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div id="wd-app" class="container-fluid">
+    <div ng-controller="navigation as nav" class="sidebar" id="wd-navigation">
+        <ul class="nav nav-sidebar">
+            <li ng-class="{active:nav.tab('home')}"><a href="#/home">Home</a></li>
+            <li ng-class="{active:nav.tab('dashboard')}"><a href="#/dashboard">Dashboard</a></li>
+            <li ng-class="{active:nav.tab('view')}"><a href="#/view">View</a></li>
+            <li ng-class="{active:nav.tab('requests')}"><a href="#/requests">Requests</a></li>
+            <li ng-class="{active:nav.tab('manage')}"><a href="#/manage">Manage</a></li>
+            <li ng-class="{active:nav.tab('reconcile')}"><a href="#/reconcile">Reconcile</a></li>
+            <li ng-class="{active:nav.tab('sessions')}"><a href="#/sessions">Sessions & Messages</a></li>
+            <li ng-class="{active:nav.tab('slamessages')}"><a href="#/slamessages">SLA Messages</a></li>
+            <li ng-class="{active:nav.tab('clientcount')}"><a href="#/clientcount">Client Count Graph</a></li>
+            <!--<li ng-class="{active:nav.tab('messages')}"><a href="#/messages">Messages & Responses</a></li>-->
+            <!--<li ng-class="{active:nav.tab('messages')}"><a href="#/messages">Aggregated Messages</a></li>-->
+            <!--<li ng-class="{active:nav.tab('navigation')}"><a href="#/login">login</a></li>-->
+            <!--<li ng-show="authenticated"><a href="" ng-click="nav.logout()">logout</a></li>-->
+        </ul>
+    </div>
+    <div class="page-content">
+        <div class="row">
+            <div ng-view class="col-sm-12 col-md-12 main" id="wd-view"></div>
+        </div>
+    </div>
+</div>
+<script src="js/angular-bootstrap.js" type="text/javascript"></script>
+<script src="js/datatables-js.js" type="text/javascript"></script>
+<script src="js/chartjs.js" type="text/javascript"></script>
+<script src="js/dynatable.js"></script>
+<script src="js/metrics-graphics.js"></script>
+<script src="js/app.module.js"></script>
+<script src="js/app.config.js"></script>
+<script src="js/home.controller.js"></script>
+<script src="js/dashboard.controller.js"></script>
+<script src="js/noc-dashboard.controller.js"></script>
+<script src="js/navigation.controller.js"></script>
+<script src="js/view.controller.js"></script>
+<script src="js/requests.controller.js"></script>
+<script src="js/manage.controller.js"></script>
+<script src="js/reconcile.controller.js"></script>
+<script src="js/sessions.controller.js"></script>
+<script src="js/messages.controller.js"></script>
+<script src="js/specific-messages.controller.js"></script>
+<script src="js/slamessages.controller.js"></script>
+<script src="js/clientcount.controller.js"></script>
+</body>
+</html>

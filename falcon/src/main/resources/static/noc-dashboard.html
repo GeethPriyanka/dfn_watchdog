@@ -1,0 +1,104 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel wd-panel dark-panel">
+            <div ng-show="true" class="stat-container">
+                <div class="stat">
+                    <h1>{{$root.sysMetrics["disconnects"]}}</h1>
+                    <h4>Disconnections</h4>
+                </div>
+                <div class="stat">
+                    <h1>{{$root.sysMetrics["failed"]}}</h1>
+                    <h4>Lost Messages</h4>
+                </div>
+                <div class="stat">
+                    <h1>{{$root.sysMetrics["tps"]}}</h1>
+                    <h4>Transactions /s</h4>
+                    <!--<h1>{{$root.tpsCount["value"]}}</h1>-->
+                </div>
+                <div class="stat">
+                    <h1>{{$root.sysMetrics["rtt"]}}</h1>
+                    <h4>Round Trip Time</h4>
+                </div>
+                <div class="stat">
+                    <h1>{{$root.sysMetrics["network"]}}</h1>
+                    <h4>Network</h4>
+                </div>
+                <div class="stat">
+                    <h1>{{$root.sysMetrics["clients"]}}</h1>
+                    <h4>Connected Clients</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-7">
+        <div ng-show="true" class="panel wd-panel">
+            <table class="wd-table">
+                <thead>
+                <tr>
+                    <th>NODE</th>
+                    <th>IP</th>
+                    <th>STATE</th>
+                    <th>MEMORY (MB)</th>
+                    <th>THREADS</th>
+                    <th>CPU %</th>
+                    <th>Last Update</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="node in $root.view.nodes | orderBy:'nodeName'"  class={{node["state"]}}>
+                    <td>{{node["nodeName"]}}</td>
+                    <td>{{node["ip"]}}</td>
+                    <td class={{node["state"]}}>{{node["state"]}}</td>
+                    <td>{{node["metric"].usedMemory}} / {{node["metric"].maxMemory}}</td>
+                    <td>{{node["metric"].threadCount}}</td>
+                    <td><!--{{node["metric"].processCpuUsage}} / -->{{node["metric"].systemCpuUsage}}</td>
+                    <td>{{node["metric"].lastUpdateTime}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+	<div class="col-md-5">
+        <div class="panel wd-panel" id="dashboard-blocks">
+            <div class="wd-panel-heading">
+                Block view
+            </div>
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+        <div class="panel wd-panel" id="dashboard-tps">
+            <div class="wd-panel-heading">
+                Transactions Per Second
+            </div>
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+        <div class="panel wd-panel" id="dashboard-load">
+            <div class="wd-panel-heading">
+                System Load Average
+            </div>
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+    </div>
+    
+</div>
+
+
+<div ng-show="false" class="row">
+    <div class="col-md-4">
+        <div class="panel wd-panel" id="dashboard-view">
+            <div class="wd-panel-heading">
+                Node Structure
+            </div>
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+    </div>
+    <div class="col-md-4 wd-col">
+        <div class="panel wd-panel" id="dashboard-lost-messages">
+            <div class="wd-panel-heading">
+                Lost Messages
+            </div>
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+    </div>
+</div>

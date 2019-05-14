@@ -1,0 +1,69 @@
+<div id="specificSlaMsgDialog" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-weight: bold; color: black;">Elaborated Message..</h4>
+            </div>
+            <div class="wd-modal-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div align="center"><h4 style="color:black;"><strong>Request</strong></h4></div>
+                        <div style="font-size: 10px; word-wrap: break-word">
+                            <p><strong>Unique ID: </strong> {{currentMessage.uid}}</p>
+                            <p><strong>Tenant Code: </strong> {{currentMessageJson['HED']['tenantCode']}}</p>
+                            <!--<p><strong>Session ID: </strong>{{currentMessage.sid}}</p>-->
+                            <p><strong>Message: </strong>{{currentMessage.msg}}</p>
+                        </div>
+                    </div>
+                    <div style="font-size: 10px;">
+                        <div align="center"><h4 style="color:black;"><strong>Response</strong></h4></div>
+                        <div class="col-sm-6" style="word-wrap: break-word">
+                            <p><strong>Unique ID: </strong> {{currentResponse.data[0]['unique_request_id']}}</p>
+                            <p><strong>Tenant Code: </strong> {{currentResponse.data[0]['tenantCode']}}</p>
+                            <p><strong>Message: </strong> {{currentResponse.data[0]['message']}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel wd-panel dark-panel">
+            <h3>SLA Messages</h3>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive container-fluid" style="font-size: 10px;">
+                <table id="slaMessages" class="cinereousTable table-hover">
+                    <thead>
+                    <tr>
+                        <th>Unique R.ID</th>
+                        <th>Channel</th>
+                        <th>ClientIP</th>
+                        <th>Comm.Ver</th>
+                        <!--<th>Cus.ID</th>-->
+                        <th>Response Time (ms)</th>
+                        <th>Date</th>
+                        <th>Login ID</th>
+                        <th>Message</th>
+                        <th>Message Type</th>
+                        <th>Session ID</th>
+                        <th>Tenant Code</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

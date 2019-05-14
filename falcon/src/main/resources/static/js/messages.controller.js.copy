@@ -1,0 +1,225 @@
+/**
+ * Created by dasunp on Aug, 2018
+ */
+angular
+    .module('watchdogMessages', [])
+    .controller('messages', ['$scope', '$http' ,'$q', function ($scope , $http, $q) {
+
+        var self = this;
+        var rootRoute = "watchdogclient";
+
+        $scope.gateways = [];
+        $scope.messages = [];
+        $scope.responses = [];
+        $scope.fromMessageFilter = new Date();
+        $scope.toMessageFilter = new Date();
+        $scope.fromResponsesFilter = new Date();
+        $scope.toResponseFilter = new Date();
+        $scope.ellaboratedResponse = "";
+        $scope.currentMessage = {
+            uid: '', tcode: '', sid: '', mtype: '', lid: '',
+            dt: '', cid: '', cver: '', cip:'', ch: '', msg:''
+        };
+
+        fetch().then(function (value) {
+            $('#messages').DataTable({
+                autoWidth: false,
+                stateSave: true,
+                scrollX: true,
+                select: true,
+                data: $scope.messages,
+                columns: [
+                    {data: 'channel', className : 'tableColumn' },
+                    {data: 'message_type',  className : 'tableColumn'},
+                    {data: 'login_id',  className : 'tableColumn'},
+                    {data: 'unique_request_id', className : 'tableColumn'},
+                    {data: 'client_ip',  className : 'tableColumn'},
+                    {data: 'session_id', className : 'tableColumn'},
+                    {data: 'date',  className : 'tableColumn', type: 'date'},
+                    {data: 'customer_id',  className : 'tableColumn'},
+                    {data: 'comm_ver', className : 'tableColumn' },
+                    {data: 'tenantCode' ,  className : 'tableColumn'},
+                    {data: 'message',  className : 'tableColumnMessage ellipsis'}
+                ]
+            }).on('click', 'tr', function () {
+                $scope.currentMessage.ch = $('td', this).eq(0).text();
+                $scope.currentMessage.mtype = $('td', this).eq(1).text();
+                $scope.currentMessage.lid = $('td', this).eq(2).text();
+                $scope.currentMessage.uid = $('td', this).eq(3).text();
+                $scope.currentMessage.cip = $('td', this).eq(4).text();
+                $scope.currentMessage.sid = $('td', this).eq(5).text();
+                $scope.currentMessage.dt = $('td', this).eq(6).text();
+                $scope.currentMessage.cid = $('td', this).eq(7).text();
+                $scope.currentMessage.cver = $('td', this).eq(8).text();
+                $scope.currentMessage.tcode = $('td', this).eq(9).text();
+                $scope.currentMessage.msg = $('td', this).eq(10).text();
+                $scope.$apply();    // Apply the scope
+                $('#msgDialog').modal("show");
+            });
+        }, function (reason) {
+            $scope.errorMessage = reason.msg;
+            $('#errorModalMessageDataTables').modal('show');
+        });
+
+
+        /**
+         * Returns the parsed date
+         * @param date
+         * @returns parsed date
+         */
+        $scope.parseDates = function parseDates(date) {
+            var parsedDate = new Date(date);
+            return parsedDate.getDate() + "-" + (parsedDate.getMonth() + 1) + "-" + parsedDate. getFullYear()
+                + " " + parsedDate.getHours() + ":" + parsedDate.getMinutes() + ":" + parsedDate.getSeconds();
+        };
+
+        /**
+         * Appends filtered messages into the scope.
+         */
+        $scope.filterMessages = function filterMessages() {
+            var to = getJavaTimestamp($scope.toMessageFilter);
+            var from = getJavaTimestamp($scope.fromMessageFilter);
+            console.log(from);
+            console.log($scope.gateways);
+            $scope.gateways.forEach(function (gateway) {
+                $http.get(rootRoute.concat('/messages/filter?', 'host=', gateway.host, '&',
+                    'port=', gateway.port, '&' ,'to=', to, '&', 'from=', from))
+                    .then(function (filteredMessages) {
+                        $scope.messages = [];   // Clear the array to append the filtered messages list.
+                        (filteredMessages.data).forEach(function (filteredMessage) {
+                            console.log(filteredMessage);
+                            $scope.messages.push(filteredMessage);
+                        });
+                });
+            });
+        };
+
+        /**
+         * Appends filtered responses into the scope.
+         */
+        $scope.filterResponses = function filterResponses() {
+            var to = getJavaTimestamp($scope.toResponseFilter);
+            var from = getJavaTimestamp($scope.fromResponsesFilter);
+            $scope.gateways.forEach(function (gateway) {
+                $http.get(rootRoute.concat('/responses/filter?', 'host=', gateway.host, '&',
+                    'port=', gateway.port, '&' ,'to=', to, '&', 'from=', from))
+                    .then(function (filteredResponses) {
+                        $scope.responses = [];  // Clear the array to append the filtered responses list.
+                        (filteredResponses.data).forEach(function (filteredResponse) {
+                            console.log(filteredResponse);
+                            $scope.responses.push(filteredResponse);
+                        });
+                });
+            });
+        };
+
+        $scope.displayMoreOfResponse = function displayMoreOfResponse(shortResponse) {
+            $scope.ellaboratedResponse = shortResponse;
+        };
+
+        function fetch() {
+            return $q(function (resolve, reject) {
+                $http.get(rootRoute.concat("/gatewayinfo")).then(function (gatewayInfo) {
+                    $scope.gateways = gatewayInfo.data;
+                    var gateways = gatewayInfo.data;
+                    gateways.forEach(function (gateway) {
+                        $http.get(rootRoute.concat("/messages?", "host=",
+                            gateway.host, "&", "port=", gateway.port))
+                            .then(function (fetchedMessages) {
+                                var messages = fetchedMessages.data;
+                                messages.forEach(function (message) {
+                                    $scope.messages.push(message);
+                                });
+                                $http.get(rootRoute.concat("/responses?", "host=",
+                                    gateway.host, "&", "port=", gateway.port))
+                                    .then(function (fetchedResponses) {
+                                        var responses = fetchedResponses.data;
+                                        responses.forEach(function (response) {
+                                            $scope.responses.push(response);
+                                        });
+                                        resolve({code:200, msg:'Success'});
+                                    });
+                            });
+                    });
+                }).catch(function (reason) {
+                    reject({code: 500, msg: reason});
+                });
+            });
+        }
+
+        // Closure for variables used inside the function.
+        (function fetch() {
+            $http.get(rootRoute.concat("/gatewayinfo")).then(function (gatewayInfo) {
+                $scope.gateways = gatewayInfo.data;
+                var gateways = gatewayInfo.data;
+                gateways.forEach(function (gateway) {
+                    $http.get(rootRoute.concat("/messages?", "host=",
+                        gateway.host, "&", "port=", gateway.port))
+                        .then(function (fetchedMessages) {
+                            var messages = fetchedMessages.data;
+                            messages.forEach(function (message) {
+                                $scope.messages.push(message);
+                            });
+                            $http.get(rootRoute.concat("/responses?", "host=",
+                                gateway.host, "&", "port=", gateway.port))
+                                .then(function (fetchedResponses) {
+                                    var responses = fetchedResponses.data;
+                                    responses.forEach(function (response) {
+                                        $scope.responses.push(response);
+                                    })
+                                });
+                        });
+                });
+            });
+        })($http, $scope, rootRoute);
+
+        /**
+         * Convert Javascript Date objects to Java Timestamps.
+         * @param javascriptDate
+         * @returns string Timestamp instance.
+         */
+        function getJavaTimestamp(javascriptDate) {
+            return javascriptDate.getFullYear() + "-"
+                + (javascriptDate.getMonth() + 1) + "-"
+                + javascriptDate.getDate() + " "
+                + "00"+ ":"
+                + "00" + ":"
+                + "00" +  "."
+                + "00";
+        }
+
+        /* USE IF NEEDED TO FETCH RESPONSE FOR A PARTICULAR MESSAGE ID.
+        $scope.fetchSuitableResponses = function fetchSuitableResponses(uniqueRequestId) {
+            var suitableResponses = [];
+            $scope.responses.forEach(function (response) {
+                if(response.unique_request_id === uniqueRequestId) suitableResponses.push(response);
+            });
+            return suitableResponses;
+        };
+        */
+
+        /*
+        (
+                    function () {
+                        $('#test').jtable({
+                            title: 'Test',
+                            actions : {
+                                listAction : '/test?host' +  gateways.host + '&port=' + gateways.port
+                            },
+                            fields: {
+                                unique_request_id: {name: "Unique Request ID"},
+                                tenantCode: {name: 'Tenant Code'},
+                                session_id: {name: 'Session ID'},
+                                message_type: {name: 'Message Type'},
+                                login_id: {name: 'Login ID'},
+                                date: {name: 'Date', type: 'date'},
+                                comm_ver: {name: "Comm. Ver"},
+                                client_ip: {name: 'Client IP'},
+                                channel: {name: 'Channel'}
+                            }
+                        });
+                    }
+                )(gateways);
+         */
+
+    }]);

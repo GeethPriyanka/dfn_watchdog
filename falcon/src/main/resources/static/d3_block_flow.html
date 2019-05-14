@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Collapsible Tree Example</title>
+    <style>
+        .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 3px;
+        }
+
+        .node text {
+            font: 12px sans-serif;
+        }
+
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 2px;
+        }
+    </style>
+</head>
+
+<body>
+<script src="http://d3js.org/d3.v4.min.js"></script>
+
+<script>
+
+    /*var blockData = {
+     "GATEWAY": [
+     {
+     "name": "GATEWAY-1",
+     "status": "active",
+     "value": 20,
+     "in": []
+     },
+     {
+     "name": "GATEWAY-2",
+     "status": "active",
+     "value": 20,
+     "in": []
+     }
+     ],
+     "OMS": [
+     {
+     "name": "OMS-1",
+     "status": "active",
+     "value": 10,
+     "in": ["GATEWAY-1", "GATEWAY-2"]
+     },
+     {
+     "name": "OMS-2",
+     "status": "active",
+     "value": 10,
+     "in": ["GATEWAY-1", "GATEWAY-2"]
+     }
+     ]
+     };*/
+
+    var blockData = {
+        "block": {
+            "GATEWAY": [{
+                x: 1,
+                y: 1,
+                text: "GATEWAY-1",
+                state: "green"
+            }, {
+                x: 1,
+                y: 2,
+                text: "GATEWAY-2",
+                state: "red"
+            }],
+            OMS: [{
+                x: 3,
+                y: 1,
+                text: "OMS-1",
+                state: "green"
+            }, {
+                x: 3,
+                y: 2,
+                text: "OMS-2",
+                state: "green"
+            }, {
+                x: 3,
+                y: 3,
+                text: "OMS-3",
+                state: "green"
+            }],
+            DFIX: [{
+                x: 5,
+                y: 1,
+                text: "DFIX-1",
+                state: "green"
+            }, {
+                x: 5,
+                y: 2,
+                text: "DFIX-2",
+                state: "green"
+            }],
+            AURA: [{
+                x: 3,
+                y: 4,
+                text: "AURA-1",
+                state: "green"
+            }],
+            TRANSAC: [{
+                x: 3,
+                y: 4,
+                text: "TxnQ-1",
+                state: "red"
+            }]
+        },
+        colors: ["red", "yellow", "blue", "green", "black", "green", "green",
+            "black", "green", "green", "black", "green", "green", "black", "green", "green"]
+    };
+
+    var dataGateway = blockData.block.GATEWAY;
+    var dataOms = blockData.block.OMS;
+    var dataDfix = blockData.block.DFIX;
+    var dataAura = blockData.block.AURA;
+    var dataTxnQ = blockData.block.TRANSAC;
+    var lineColors = blockData.colors;
+
+    var margin = {top: 0, right: 0, bottom: 0, left: 0},
+        width = 300 - margin.left - margin.right,
+        height = 220 - margin.top - margin.bottom;
+
+    var svg = d3.select("body").append("svg")
+        .attr("width", width + margin.right + margin.left)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    var rh = 20,
+        rw = 50;
+
+    var shGateway = (height - dataGateway.length * rh) / (dataGateway.length + 1);
+    var shOms = (height - 2 * rh - dataOms.length * rh) / (dataOms.length + 1);
+    var shDfix = (height - dataDfix.length * rh) / (dataDfix.length + 1);
+
+    links = [];
+
+    function calculateLinks(source, target, shSource, shTarget) {
+        for (i = 0; i < source.length; i++) {
+            for (j = 0; j < target.length; j++) {
+                sourceX = (((width - 3 * rw) / 6) + (width / 6) * (source[i].x - 1)) + rw;
+                sourceY = source[i].y * shSource + (source[i].y - 1) * rh + rh / 2;
+                var targetX, targetY;
+                if (shTarget != null) {
+                    targetX = (((width - 3 * rw) / 6) + (width / 6) * (target[j].x - 1));
+                    targetY = target[j].y * shTarget + (target[j].y - 1 ) * rh + rh / 2;
+                } else {
+                    targetX = (((width - 3 * rw) / 6) + (width / 6) * (target[j].x - 1));
+                    targetY = (height - 1.5 * rh);
+                }
+                links.push([[sourceX, sourceY], [targetX, targetY]]);
+            }
+        }
+    }
+
+    calculateLinks(dataGateway, dataOms, shGateway, shOms);
+    calculateLinks(dataOms, dataDfix, shOms, shDfix);
+    calculateLinks(dataGateway, dataAura, shGateway, null);
+    calculateLinks(dataGateway, dataTxnQ, shGateway, null);
+
+    svg.append("rect")
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .attr("fill", "grey");
+
+    var gGateway = svg.selectAll('.gatewayModule')
+        .data(dataGateway)
+        .enter()
+        .append("g")
+        .attr("class", "gatewayModule")
+        .attr("transform", function (d) {
+            return "translate(" + (((width - 3 * rw) / 6) +  (width / 6) * (d.x - 1)) + "," + (d.y * shGateway + (d.y - 1) * rh) + ")";
+        });
+    gGateway.append("rect")
+        .attr("width", rw)
+        .attr("height", rh)
+            .attr("r", 0)
+        .style("fill", function(d) {
+            return d.state;
+        })
+        .style("stroke", "#000000");
+    gGateway.append("text")
+        .style("fill", "black")
+        .style("font-size", "8px")
+        .style("text-anchor", "middle")
+        .attr("x", rw / 2)
+        .attr("y", rh / 1.5)
+        .text(function (d) {
+            return d.text;
+        });
+
+    var gOms = svg.selectAll('.omsModule')
+        .data(dataOms)
+        .enter()
+        .append("g")
+        .attr("class", "omsModule")
+        .attr("transform", function (d) {
+            return "translate(" + (((width - 3 * rw) / 6) + (width / 6) * (d.x - 1)) + "," + (d.y * shOms + (d.y - 1 ) * rh) + ")";
+        });
+    gOms.append("rect")
+        .attr("width", rw)
+        .attr("height", rh)
+        .style("fill", "#565656")
+        .style("stroke", "#000000");
+    gOms.append("text")
+        .style("fill", "black")
+        .style("font-size", "8px")
+        .style("text-anchor", "middle")
+        .attr("x", rw / 2)
+        .attr("y", rh / 1.5)
+        .text(function (d) {
+            return d.text;
+        });
+
+    var gDfix = svg.selectAll('.dfixModule')
+        .data(dataDfix)
+        .enter()
+        .append("g")
+        .attr("class", "dfixModule")
+        .attr("transform", function (d) {
+            return "translate(" + (((width - 3 * rw) / 6) + (width / 6) * (d.x - 1)) + "," + (d.y * shDfix + (d.y - 1) * rh) + ")";
+        });
+    gDfix.append("rect")
+        .attr("width", rw)
+        .attr("height", rh)
+        .style("fill", "#565656")
+        .style("stroke", "#000000");
+    gDfix.append("text")
+        .style("fill", "black")
+        .style("font-size", "8px")
+        .style("text-anchor", "middle")
+        .attr("x", rw / 2)
+        .attr("y", rh / 1.5)
+        .text(function (d) {
+            return d.text;
+        });
+
+    var gAura = svg.selectAll('.auraModule')
+        .data(dataAura)
+        .enter()
+        .append("g")
+        .attr("class", "auraModule")
+        .attr("transform", function (d) {
+            return "translate(" + (((width - 3 * rw) / 6) + (width / 6) * (d.x - 1)) + "," + (height - 2 * rh) + ")";
+        });
+    gAura.append("rect")
+        .attr("width", rw)
+        .attr("height", rh)
+        .style("fill", "#565656")
+        .style("stroke", "#000000");
+    gAura.append("text")
+        .style("fill", "black")
+        .style("font-size", "8px")
+        .style("text-anchor", "middle")
+        .attr("x", rw / 2)
+        .attr("y", rh / 1.5)
+        .text(function (d) {
+            return d.text;
+        });
+
+    var gTxnQ = svg.selectAll('.txnqModule')
+        .data(dataTxnQ)
+        .enter()
+        .append("g")
+        .attr("class", "txnqModule")
+        .attr("transform", function (d) {
+            return "translate(" + (((width - 3 * rw) / 6) + (width / 6) * (d.x - 1)) + "," + (height - 2 * rh) + ")";
+        });
+    gTxnQ.append("rect")
+        .attr("width", rw)
+        .attr("height", rh)
+        .style("fill", "#565656")
+        .style("stroke", "#000000");
+    gTxnQ.append("text")
+        .style("fill", "black")
+        .style("font-size", "8px")
+        .style("text-anchor", "middle")
+        .attr("x", rw / 2)
+        .attr("y", rh / 1.5)
+        .text(function (d) {
+            return d.text;
+        });
+
+    var lineGenerator = d3.line();
+
+    var diagonal = function (node) {
+        source = node[0];
+        target = node[1];
+        return "M" + target[0] + "," + target[1]
+            + "C" + (target[0] + source[0]) / 2 + "," + target[1]
+            + " " + (target[0] + source[0]) / 2 + "," + source[1]
+            + " " + source[0] + "," + source[1];
+    };
+
+
+    for (i = 0; i < links.length; i++) {
+        var link = links[i];
+        console.log(link);
+        svg.append('path')
+            .attr('d', lineGenerator(link))
+//                        .attr('d', diagonal(link))
+            .attr('fill', 'none')
+            .attr('stroke', lineColors[i])
+            .attr('stroke-width', 2);
+    }
+
+</script>
+
+</body>
+</html>
