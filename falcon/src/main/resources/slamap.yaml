@@ -1,49 +1,49 @@
 # {messageType: roundTime}
 # times should be in milliseconds.
 defaultTime:
-  enabled: true
-  defaultTime: 100
+ enabled: true
+ defaultTime: 100
 
 # to enable this, make turn off default SLA time above.
 # If defaultTime is disabled, please specify all the message types and their round times in roundTimeMapping.
 roundTimeMapping:
-  1: 100
-  2: 100
-  3: 100
-  4: 100
-  5: 100
-  6: 100
-  7: 100
-  9: 100
-  10: 100
-  11: 100
-  12: 100
-  13: 100
-  14: 100
-  15: 100
-  16: 100
-  17: 100
-  18: 100
-  19: 100
-  21: 100
+ 1: 100
+ 2: 100
+ 3: 100
+ 4: 100
+ 5: 100
+ 6: 100
+ 7: 100
+ 9: 100
+ 10: 100
+ 11: 100
+ 12: 100
+ 13: 100
+ 14: 100
+ 15: 100
+ 16: 100
+ 17: 100
+ 18: 100
+ 19: 100
+ 21: 100
 
 serviceList:
-  1: login
-  2: new_order
-  3: heartbeat
-  4: holding_detail
-  5: buyingpower
-  6: account_headers
-  7: exchange_config
-  9: beneficiary_list
-  10: cash_credit
-  11: cash_debit
-  12: cash_transfer
-  13: transaction_history
-  14: charge_refund
-  15: amend_order
-  16: cancel_order
-  17: reverse_order
-  18: manual_order_execution
-  19: order_expiry
-  21: approve_reject_park_order
+ 1: login
+ 2: new_order
+ 3: heartbeat
+ 4: holding_detail
+ 5: buyingpower
+ 6: account_headers
+ 7: exchange_config
+ 9: beneficiary_list
+ 10: cash_credit
+ 11: cash_debit
+ 12: cash_transfer
+ 13: transaction_history
+ 14: charge_refund
+ 15: amend_order
+ 16: cancel_order
+ 17: reverse_order
+ 18: manual_order_execution
+ 19: order_expiry
+ 21: approve_reject_park_order

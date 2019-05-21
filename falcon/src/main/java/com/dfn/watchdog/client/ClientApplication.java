@@ -72,7 +72,8 @@ public class ClientApplication {
                             "/dashboard.html", "/", "/img/*", "/server/config", "/watchdogclient/sessions", "/watchdogclient/messages", "/watchdogclient/messages/sla",
                             "/watchdogclient/responses", "/watchdogclient/messages/graph", "/watchdogclient/services", "/watchdogclient/clientCounts",
                             "/watchdogclient/clientCountMap","/watchdogclient/view","/watchdogclient/route/**","/watchdogclient/sessions/active",
-                            "/watchdogclient/messages/specific**","/watchdogclient/responses/specific**","/watchdogclient/slaconfigroundtime","/watchdogclient/slaconfigdefaulttime","/watchdogclient/slaconfigservice").permitAll()
+                            "/watchdogclient/messages/specific**","/watchdogclient/responses/specific**","/watchdogclient/slaconfigroundtime","/watchdogclient/slaconfigdefaulttime",
+                            "/watchdogclient/slaconfigservice","/watchdogclient/slamapdata").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .csrf().disable();

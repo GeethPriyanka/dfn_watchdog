@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -299,6 +300,54 @@ public class ClientController {
         }
         return new HashMap<String, String>(){}.put(STATUS_CONSTANT, "1");
     }
+
+    /* =================== POST mapping from the frontend SLA Configuration =========================== */
+
+    @PostMapping("/slamapdata")
+    @ResponseBody
+    public Object slamapwrite(@RequestBody SlaMapConfiguration response){
+        DefaultSlaTime defaultSlaTime = new DefaultSlaTime();
+        defaultSlaTime.setDefaultTime(response.getDefaultSlaTime().getDefaultTime());
+        defaultSlaTime.setEnabled(response.getDefaultSlaTime().isEnabled());
+        Map<Integer, Long> roundTimeMap = new HashMap<>();
+        Map<Integer, String> serviceListMap = new HashMap<>();
+        String roundTimes = "";
+        String serviceList = "";
+        for (Map.Entry<Integer, Long> entry : response.getRoundTimes().entrySet()) {
+            roundTimes = roundTimes.concat(" "+entry.getKey()+":"+" "+entry.getValue()+"\n");
+            roundTimeMap.put(entry.getKey(),entry.getValue());
+        }
+        for (Map.Entry<Integer, String> entry2 : response.getServiceList().entrySet()) {
+            serviceList = serviceList.concat(" "+entry2.getKey()+":"+" "+entry2.getValue()+"\n");
+            serviceListMap.put(entry2.getKey(),entry2.getValue());
+        }
+        try{
+            FileWriter fw = new FileWriter("falcon/src/main/resources/slamap.yaml");
+            fw.write("# {messageType: roundTime}\n" +"# times should be in milliseconds.\n"+
+                    "defaultTime:\n" +
+                    " enabled: "+response.getDefaultSlaTime().isEnabled()+ "\n" +
+                    " defaultTime: "+response.getDefaultSlaTime().getDefaultTime()+"\n\n"+
+                    "# to enable this, make turn off default SLA time above.\n" +
+                    "# If defaultTime is disabled, please specify all the message types and their round times in roundTimeMapping.\n"+
+                    "roundTimeMapping:\n"+
+                    roundTimes+"\n"+
+                    "serviceList:\n"+
+                    serviceList);
+            fw.close();
+
+            WatchdogClient.INSTANCE.getSlaMapConfig().setDefaultSlaTime(defaultSlaTime);
+            WatchdogClient.INSTANCE.getSlaMapConfig().setRoundTimes(roundTimeMap);
+            WatchdogClient.INSTANCE.getSlaMapConfig().setServiceList(serviceListMap);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+
+
+        return new HashMap<String, String>(){}.put(STATUS_CONSTANT, "1");
+    }
+
+
 
     /** ====== Get mapping for the graph ======= **/
 
