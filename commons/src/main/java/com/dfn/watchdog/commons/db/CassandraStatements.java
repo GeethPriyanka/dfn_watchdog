@@ -5,6 +5,7 @@ import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.Session;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,7 @@ public class CassandraStatements {
     private final PreparedStatement clientRouteSelect;
     private final PreparedStatement clientRouteHistorySelect;
     private final SimpleDateFormat dateFormatter;
+    private final PreparedStatement loginSelect;
 
     private final PreparedStatement clientInsertHistory;
 
@@ -32,6 +34,7 @@ public class CassandraStatements {
         clientInsertHistory = session.prepare("INSERT INTO watchdog.clientroutes_history (client_id, next_node, update_time) VALUES (?, ?, ?)");
         clientRouteSelect = session.prepare("select * from watchdog.clientroutes");
         clientRouteHistorySelect = session.prepare("select * from watchdog.clientroutes_history where client_id = ?");
+        loginSelect = session.prepare(""); //TODO
 
         dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     }
@@ -74,6 +77,11 @@ public class CassandraStatements {
 
     public BoundStatement getClientRouteHistory(long clientId) {
         return clientRouteHistorySelect.bind(clientId);
+    }
+
+    public BoundStatement getLogins(String username){
+        //not implemented properly TODO
+        return loginSelect.bind(username);
     }
 
 }

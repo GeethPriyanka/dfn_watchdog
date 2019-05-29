@@ -11,11 +11,13 @@ import com.dfn.watchdog.client.database.queues.ResponseQueue;
 import com.dfn.watchdog.client.database.queues.SessionQueue;
 import com.dfn.watchdog.client.util.ClientProperties;
 import com.dfn.watchdog.client.util.DataSupplier;
+import com.dfn.watchdog.client.util.User;
 import com.dfn.watchdog.client.util.gatewaybeans.GCommonMessageAsync;
 import com.dfn.watchdog.client.util.gatewaybeans.GCommonResponseAsync;
 import com.dfn.watchdog.commons.Node;
 import com.dfn.watchdog.commons.NodeType;
-import com.dfn.watchdog.commons.db.*;
+import com.dfn.watchdog.commons.db.DatabaseConnection;
+import com.dfn.watchdog.commons.db.DatabaseUtils;
 import com.dfn.watchdog.commons.messages.client.AsyncRequest;
 import com.dfn.watchdog.commons.messages.client.ClientRouteRequest;
 import com.dfn.watchdog.commons.messages.client.ClientRouteResponse;
@@ -32,13 +34,17 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.MessageDigest;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
+
+import static com.dfn.watchdog.client.ClientApplication.decryptText;
 
 /**
  * watchdog client services.
@@ -48,7 +54,7 @@ import java.util.*;
 @RequestMapping("/watchdogclient")
 public class ClientController {
     private static final Logger logger = LogManager.getLogger(ClientController.class);
-    private DatabaseConnection databaseConnection;
+    protected DatabaseConnection databaseConnection;
     private final ObjectMapper jsonMapper;
     private static final ClientProperties properties = WatchdogClient.INSTANCE.getProperties();
 
@@ -74,6 +80,28 @@ public class ClientController {
         jsonMapper = new ObjectMapper();
         this.schedulerFactory = new StdSchedulerFactory();
     }
+
+
+    @RequestMapping("/login")
+    public boolean login(@RequestBody User user) {
+
+        String key = "#dfnfalcon#12345";
+        String loginPwd = null;
+        try{
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(decryptText(user.getPassword(),key).getBytes());
+            byte[] digest = md.digest();
+            String hashedPwd = DatatypeConverter.printHexBinary(digest).toUpperCase();
+            loginPwd =  databaseConnection.getLogins(user.getUserName());
+            return hashedPwd.equals(loginPwd);
+
+        }catch(Exception e){
+            System.out.println("Error occured  "+e);
+            return false;
+        }
+
+    }
+
 
     @RequestMapping("/route/{clientId}")
     public Object requestRoute(@PathVariable String clientId) {

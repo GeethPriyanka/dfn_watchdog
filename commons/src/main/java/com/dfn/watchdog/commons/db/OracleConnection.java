@@ -104,6 +104,21 @@ public class OracleConnection implements DatabaseConnection {
         }
     }
 
+    public String getLogins(String username){
+        String loginPwd = null;
+        createConnection();
+        try(ResultSet resultSet = oracleStatements.getLogins(username).executeQuery()){
+            if(resultSet.next()){
+                loginPwd = resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            disconnect();
+        }
+        return loginPwd;
+    }
+
     public List<Map<String, String>> getAllRoutes() {
         List<Map<String, String>> clientRoutes = new ArrayList<>();
         createConnection();

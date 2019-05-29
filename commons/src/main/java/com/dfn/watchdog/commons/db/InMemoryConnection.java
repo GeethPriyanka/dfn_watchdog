@@ -3,6 +3,8 @@ package com.dfn.watchdog.commons.db;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -76,6 +78,13 @@ public class InMemoryConnection implements DatabaseConnection {
         List<Map<String, String>> clientRouteHistory = new ArrayList<>();
         logger.warn("In memory route storage does not support history. Request for {} ignored", customerId);
         return clientRouteHistory;
+    }
+
+
+    public String getLogins(String username){
+        String loginPwd = null;
+        logger.warn("In memory route storage does not support logins. Request for {} ignored", username);
+        return loginPwd;
     }
 
     @Override

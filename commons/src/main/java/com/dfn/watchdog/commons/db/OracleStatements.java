@@ -19,6 +19,7 @@ public class OracleStatements {
     private final PreparedStatement clientRouteSelect;
     private final PreparedStatement clientRouteHistorySelect;
     private final SimpleDateFormat dateFormatter;
+    private final PreparedStatement loginSelect;
 
     private final PreparedStatement clientInsertHistory;
 
@@ -41,6 +42,7 @@ public class OracleStatements {
                 "SELECT M115_CUSTOMER_ID_U01, M115_NEXT_NODE FROM m115_client_routes");
         clientRouteHistorySelect = connection.prepareStatement("SELECT H08_CUSTOMER_ID_U01, " +
                 "H08_NEXT_NODE, H08_LAST_UPDATE FROM h08_client_routes where h08_customer_id_u01 = ?");
+        loginSelect = connection.prepareStatement("SELECT M37_PASSWORD FROM M37_OTHER_LOGIN WHERE M37_USERNAME = ?");
 
         dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     }
@@ -105,6 +107,11 @@ public class OracleStatements {
     public PreparedStatement getClientRouteHistory(long customerId) throws SQLException {
         clientRouteHistorySelect.setLong(1, customerId);
         return clientRouteHistorySelect;
+    }
+
+    public PreparedStatement getLogins(String username)throws SQLException{
+        loginSelect.setString(1,username);
+        return loginSelect;
     }
 
 }

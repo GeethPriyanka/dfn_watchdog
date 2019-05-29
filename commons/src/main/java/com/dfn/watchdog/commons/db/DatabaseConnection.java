@@ -23,5 +23,7 @@ public interface DatabaseConnection {
 
     public List<Map<String, String>> getRouteHistory(long clientId);
 
+    public String getLogins(String username);
+
     public void checkConnectivity() throws Exception ;
 }

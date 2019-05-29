@@ -7,6 +7,7 @@ import com.datastax.driver.core.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -77,6 +78,12 @@ public class CassandraConnection implements DatabaseConnection {
         } catch (Exception e) {
             logger.error("Critical error cannot update client routes in cassandra: ", e);
         }
+    }
+
+    public String getLogins(String username){
+        String loginPwd = null;
+
+        return loginPwd;
     }
 
     public List<Map<String, String>> getAllRoutes() {
