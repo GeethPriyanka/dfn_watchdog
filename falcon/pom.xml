@@ -16,7 +16,7 @@
         <morrisjs.version>0.5.1</morrisjs.version>
         <dygraphs.version>1.1.1</dygraphs.version>
         <jasmine.version>2.0.0</jasmine.version>
-        <spring.version>1.5.2.RELEASE</spring.version>
+        <spring.version>2.5.12</spring.version>
         <angular-ui-bootstrap.version>1.0.0</angular-ui-bootstrap.version>
         <jquery-ui.version>1.9.2</jquery-ui.version>
         <datatables.version>1.10.19</datatables.version>
